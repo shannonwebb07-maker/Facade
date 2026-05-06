@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FACADE — A Public Architecture Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Fraunces', Georgia, serif;
+    background: #ffffff;
+    color: #111111;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 3px solid #111;
+    padding: 20px 24px 14px;
+    background: #ffffff;
+  }
+
+  .masthead-top {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #111;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .logo {
+    font-weight: 900;
+    font-size: clamp(52px, 12vw, 130px);
+    letter-spacing: -0.04em;
+    line-height: 0.85;
+    text-align: center;
+    font-style: italic;
+    color: #111;
+  }
+
+  .tagline {
+    text-align: center;
+    margin-top: 14px;
+    font-size: 15px;
+    font-style: italic;
+    color: #111;
+  }
+
+  /* MISSION */
+  .mission {
+    max-width: 700px;
+    margin: 48px auto 32px;
+    padding: 0 24px;
+    text-align: center;
+  }
+
+  .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #c8321a;
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+
+  .mission h2 {
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 400;
+    line-height: 1.4;
+    color: #111;
+  }
+
+  .mission h2 em {
+    color: #c8321a;
+    font-style: italic;
+    font-weight: 700;
+    background: #fff5b8;
+    padding: 0 5px;
+  }
+
+  /* STATS */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 2px solid #111;
+    border-bottom: 2px solid #111;
+    margin: 40px 0;
+  }
+
+  .stat {
+    padding: 20px 16px;
+    text-align: center;
+    border-right: 2px solid #111;
+  }
+  .stat:last-child { border-right: none; }
+
+  .stat-num {
+    font-size: 40px;
+    font-weight: 700;
+    font-style: italic;
+    color: #111;
+    letter-spacing: -0.03em;
+  }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #111;
+    margin-top: 4px;
+    font-weight: 600;
+  }
+
+  /* LAYOUT */
+  .container {
+    padding: 0 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #111;
+  }
+
+  .section-head h3 {
+    font-size: 30px;
+    font-weight: 700;
+    font-style: italic;
+    color: #111;
+  }
+
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #c8321a;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+  }
+
+  /* FORM */
+  .submit-wrap { margin: 56px auto; }
+
+  .form-card {
+    background: #fff;
+    border: 2px solid #111;
+    padding: 32px;
+    box-shadow: 6px 6px 0 #111;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  @media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+  }
+
+  .field { display: flex; flex-direction: column; }
+  .field.full { grid-column: 1 / -1; }
+
+  label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #111;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  input[type="text"], textarea, select {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    padding: 10px 0;
+    border: none;
+    border-bottom: 2px solid #111;
+    background: #fff;
+    color: #111;
+    outline: none;
+    width: 100%;
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+
+  input::placeholder, textarea::placeholder { color: #999; font-style: italic; }
+  input:focus, textarea:focus, select:focus { border-bottom-color: #c8321a; }
+  textarea { resize: vertical; min-height: 72px; }
+
+  .rating-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .rating-btn {
+    width: calc(10% - 6px);
+    min-width: 36px;
+    padding: 12px 4px;
+    background: #fff;
+    border: 2px solid #111;
+    cursor: pointer;
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #111;
+    text-align: center;
+    transition: all 0.12s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .rating-btn:hover, .rating-btn:active { background: #fde8e3; border-color: #c8321a; }
+  .rating-btn.selected { background: #111; color: #fff; border-color: #111; }
+
+  .rating-help {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #111;
+    margin-top: 8px;
+    font-weight: 600;
+  }
+
+  .submit-btn {
+    margin-top: 28px;
+    padding: 16px;
+    background: #111;
+    color: #fff;
+    border: 2px solid #111;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    font-weight: 600;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .submit-btn:hover, .submit-btn:active { background: #c8321a; border-color: #c8321a; }
+
+  /* GALLERY */
+  .gallery-wrap { margin: 72px auto; }
+
+  .filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .filter {
+    padding: 8px 14px;
+    background: #fff;
+    border: 2px solid #111;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #111;
+    font-weight: 600;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .filter:hover, .filter:active, .filter.active { background: #111; color: #fff; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: #fff;
+    border: 2px solid #111;
+    padding: 20px;
+    position: relative;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 5px 5px 0 #111;
+  }
+
+  .card-badge {
+    position: absolute;
+    top: -13px;
+    right: 14px;
+    border: 2px solid #111;
+    padding: 4px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .badge-beautiful { background: #d8f0de; color: #1f6e3a; }
+  .badge-ugly { background: #fde8e3; color: #c8321a; }
+  .badge-mixed { background: #fff5b8; color: #111; }
+
+  .card-name {
+    font-size: 20px;
+    font-weight: 700;
+    font-style: italic;
+    color: #111;
+    line-height: 1.2;
+    margin-bottom: 3px;
+  }
+
+  .card-loc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #111;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  .card-score {
+    font-size: 56px;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin: 8px 0;
+  }
+
+  .score-beautiful { color: #1f6e3a; }
+  .score-ugly { color: #c8321a; }
+  .score-mixed { color: #111; }
+
+  .card-score span { font-size: 20px; color: #111; font-weight: 500; }
+
+  .card-comment {
+    font-size: 14px;
+    color: #111;
+    font-style: italic;
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  .card-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #111;
+    padding-top: 10px;
+    border-top: 1px solid #111;
+    margin-top: 10px;
+    font-weight: 600;
+  }
+
+  .empty {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 56px 24px;
+    color: #111;
+    font-style: italic;
+    font-size: 18px;
+  }
+
+  .ornament {
+    text-align: center;
+    color: #c8321a;
+    font-size: 22px;
+    margin: 28px 0;
+    letter-spacing: 0.5em;
+  }
+
+  footer {
+    margin-top: 72px;
+    padding: 28px 24px;
+    border-top: 3px solid #111;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #111;
+    font-weight: 600;
+  }
+
+  footer .red { color: #c8321a; }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #111;
+    color: #fff;
+    padding: 14px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transform: translateY(200%);
+    transition: transform 0.3s;
+    z-index: 100;
+    font-weight: 600;
+    border: 2px solid #111;
+  }
+
+  .toast.show { transform: translateY(0); }
+
+  @media (max-width: 480px) {
+    .stats { grid-template-columns: 1fr; }
+    .stat { border-right: none; border-bottom: 2px solid #111; }
+    .stat:last-child { border-bottom: none; }
+    .masthead-top span:nth-child(2) { display: none; }
+    .form-card { padding: 20px; box-shadow: 4px 4px 0 #111; }
+    .rating-btn { min-width: 30px; font-size: 14px; padding: 10px 2px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="masthead-top">
+    <span>Vol. I — No. 01</span>
+    <span>Est. 2026</span>
+    <span>Austin, Texas</span>
+  </div>
+  <h1 class="logo">Façade.</h1>
+  <p class="tagline">A public index of the buildings we live with — and what we actually think of them.</p>
+</header>
+
+<div class="container">
+  <div class="mission">
+    <div class="label">Our Premise</div>
+    <h2>Developers say the public doesn't care about <em>beauty</em>. We say prove it. Rate a building and let the data speak.</h2>
+  </div>
+
+  <div class="ornament">❦ &nbsp; ❦ &nbsp; ❦</div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num" id="total-count">0</div>
+      <div class="stat-label">Buildings Indexed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="avg-score">—</div>
+      <div class="stat-label">Average Rating</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="ugly-pct">—</div>
+      <div class="stat-label">Rated Ugly or Worse</div>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-wrap">
+    <div class="section-head">
+      <span class="section-num">§ 01</span>
+      <h3>Submit a Building</h3>
+    </div>
+    <div class="form-card">
+      <div class="form-grid">
+        <div class="field">
+          <label for="name">Building Name</label>
+          <input type="text" id="name" placeholder="e.g., The Driskill Hotel" />
+        </div>
+        <div class="field">
+          <label for="loc">City / Neighborhood</label>
+          <input type="text" id="loc" placeholder="e.g., Downtown Austin" />
+        </div>
+        <div class="field">
+          <label for="era">Era</label>
+          <select id="era">
+            <option value="">Select era…</option>
+            <option value="pre-1940">Pre-1940 (Traditional)</option>
+            <option value="1940-1980">1940–1980 (Mid-Century)</option>
+            <option value="1980-2010">1980–2010 (Postmodern)</option>
+            <option value="2010-now">2010–Present (Contemporary)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="type">Building Type</label>
+          <select id="type">
+            <option value="">Select type…</option>
+            <option value="residential">Residential</option>
+            <option value="commercial">Commercial</option>
+            <option value="civic">Civic / Government</option>
+            <option value="religious">Religious</option>
+            <option value="educational">Educational</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label>Beauty Rating</label>
+          <div class="rating-group" id="rating-group">
+            <button class="rating-btn" data-val="1">1</button>
+            <button class="rating-btn" data-val="2">2</button>
+            <button class="rating-btn" data-val="3">3</button>
+            <button class="rating-btn" data-val="4">4</button>
+            <button class="rating-btn" data-val="5">5</button>
+            <button class="rating-btn" data-val="6">6</button>
+            <button class="rating-btn" data-val="7">7</button>
+            <button class="rating-btn" data-val="8">8</button>
+            <button class="rating-btn" data-val="9">9</button>
+            <button class="rating-btn" data-val="10">10</button>
+          </div>
+          <div class="rating-help">
+            <span>← An eyesore</span>
+            <span>A masterpiece →</span>
+          </div>
+        </div>
+        <div class="field full">
+          <label for="comment">Why? (Optional)</label>
+          <textarea id="comment" placeholder="What makes it beautiful or ugly?"></textarea>
+        </div>
+      </div>
+      <button class="submit-btn" id="submit-btn">File Submission →</button>
+    </div>
+  </div>
+
+  <!-- GALLERY -->
+  <div class="gallery-wrap">
+    <div class="section-head">
+      <span class="section-num">§ 02</span>
+      <h3>The Index</h3>
+    </div>
+    <div class="filters">
+      <button class="filter active" data-filter="all">All</button>
+      <button class="filter" data-filter="beautiful">Most Beautiful</button>
+      <button class="filter" data-filter="ugly">Most Ugly</button>
+      <button class="filter" data-filter="recent">Most Recent</button>
+      <button class="filter" data-filter="pre-1940">Pre-1940</button>
+      <button class="filter" data-filter="2010-now">2010–Now</button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</div>
+
+<footer>
+  <p>Façade — <span class="red">A research project on architectural preference</span> — Austin, TX</p>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STORAGE_KEY = 'facade_v2';
+let selectedRating = null;
+let currentFilter = 'all';
+
+const SEED = [
+  {
+    id: 'seed_1', name: 'The Driskill Hotel', loc: 'Downtown Austin',
+    era: 'pre-1940', type: 'other', rating: 10, timestamp: 1000,
+    comment: 'Romanesque Revival masonry, arched windows, terracotta detail. Everything modern Austin lost.'
+  },
+  {
+    id: 'seed_2', name: 'Texas State Capitol', loc: 'Downtown Austin',
+    era: 'pre-1940', type: 'civic', rating: 10, timestamp: 999,
+    comment: 'Renaissance Revival dome, intricate stonework, perfectly proportioned. Still the most beautiful building in the city.'
+  },
+  {
+    id: 'seed_3', name: 'Sixth Street Historic District', loc: 'East 6th, Austin',
+    era: 'pre-1940', type: 'commercial', rating: 9, timestamp: 998,
+    comment: 'Victorian-era brick facades, ornate cornices, human-scale storefronts. The street actually has a soul.'
+  },
+  {
+    id: 'seed_4', name: 'Littlefield Building', loc: 'Downtown Austin',
+    era: 'pre-1940', type: 'commercial', rating: 9, timestamp: 997,
+    comment: 'Beaux-Arts detail, terracotta ornamentation, gorgeous ironwork. Built in 1910 and still embarrasses everything around it.'
+  },
+  {
+    id: 'seed_5', name: 'St. Mary Cathedral', loc: 'Downtown Austin',
+    era: 'pre-1940', type: 'religious', rating: 9, timestamp: 996,
+    comment: 'Gothic Revival towers, stained glass, hand-laid stone. Timeless in a city that throws everything away.'
+  },
+  {
+    id: 'seed_6', name: 'Austin City Hall', loc: 'Downtown Austin',
+    era: '2010-now', type: 'civic', rating: 2, timestamp: 995,
+    comment: 'Cantilevered concrete slabs, no ornament, looks like a loading dock. Supposed to represent the city.'
+  },
+  {
+    id: 'seed_7', name: 'The Independent (Jenga Tower)', loc: 'West Austin',
+    era: '2010-now', type: 'residential', rating: 2, timestamp: 994,
+    comment: 'Stacked glass boxes trying to be interesting through gimmicks. Novelty as a substitute for beauty.'
+  },
+  {
+    id: 'seed_8', name: 'Domain Northside', loc: 'North Austin',
+    era: '2010-now', type: 'commercial', rating: 2, timestamp: 993,
+    comment: 'Manufactured "streetscape" with zero authentic character. Chain-store facades pretending to be a neighborhood.'
+  },
+  {
+    id: 'seed_9', name: 'Oracle Campus', loc: 'East Austin',
+    era: '2010-now', type: 'commercial', rating: 1, timestamp: 992,
+    comment: 'Glass curtain walls, no human scale, no relationship to the street. Could be anywhere on earth.'
+  },
+  {
+    id: 'seed_10', name: 'Indeed Tower', loc: 'Downtown Austin',
+    era: '2010-now', type: 'commercial', rating: 3, timestamp: 991,
+    comment: 'Reflective glass monolith. Tall, expensive, completely forgettable. The skyline gets worse every year.'
+  }
+];
+
+function loadBuildings() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const userBuildings = raw ? JSON.parse(raw) : [];
+    // Merge seed + user, avoid duplicates by id
+    const userIds = new Set(userBuildings.map(b => b.id));
+    const seedFiltered = SEED.filter(b => !userIds.has(b.id));
+    return [...seedFiltered, ...userBuildings];
+  } catch(e) { return [...SEED]; }
+}
+
+function saveUserBuildings(all) {
+  try {
+    const user = all.filter(b => !b.id.startsWith('seed_'));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+  } catch(e) { console.error(e); }
+}
+
+let allBuildings = loadBuildings();
+
+function cls(r) { return r >= 7 ? 'beautiful' : r <= 4 ? 'ugly' : 'mixed'; }
+function tag(r) { return r >= 7 ? 'BEAUTIFUL' : r <= 4 ? 'UGLY' : 'MIXED'; }
+const eraLabel = {
+  'pre-1940': 'Pre-1940', '1940-1980': '1940–1980',
+  '1980-2010': '1980–2010', '2010-now': '2010–Now'
+};
+
+function escHtml(s) {
+  return String(s).replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function renderStats() {
+  const t = allBuildings.length;
+  document.getElementById('total-count').textContent = t;
+  if (!t) {
+    document.getElementById('avg-score').textContent = '—';
+    document.getElementById('ugly-pct').textContent = '—';
+    return;
+  }
+  const avg = allBuildings.reduce((s,b) => s+b.rating,0)/t;
+  document.getElementById('avg-score').textContent = avg.toFixed(1);
+  const ugly = allBuildings.filter(b => b.rating<=4).length;
+  document.getElementById('ugly-pct').textContent = Math.round(ugly/t*100)+'%';
+}
+
+function renderGrid() {
+  const grid = document.getElementById('grid');
+  let list = [...allBuildings];
+  if (currentFilter==='beautiful') list=list.filter(b=>b.rating>=7).sort((a,b)=>b.rating-a.rating);
+  else if (currentFilter==='ugly') list=list.filter(b=>b.rating<=4).sort((a,b)=>a.rating-b.rating);
+  else if (currentFilter==='recent') list.sort((a,b)=>b.timestamp-a.timestamp);
+  else if (currentFilter==='pre-1940') list=list.filter(b=>b.era==='pre-1940');
+  else if (currentFilter==='2010-now') list=list.filter(b=>b.era==='2010-now');
+  else list.sort((a,b)=>b.timestamp-a.timestamp);
+
+  if (!list.length) {
+    grid.innerHTML='<div class="empty">No buildings match this filter.</div>';
+    return;
+  }
+
+  grid.innerHTML = list.map(b => `
+    <article class="card">
+      <div class="card-badge badge-${cls(b.rating)}">${tag(b.rating)}</div>
+      <div class="card-name">${escHtml(b.name)}</div>
+      <div class="card-loc">${escHtml(b.loc)}</div>
+      <div class="card-score score-${cls(b.rating)}">${b.rating}<span>/10</span></div>
+      ${b.comment ? `<div class="card-comment">"${escHtml(b.comment)}"</div>` : ''}
+      <div class="card-meta">
+        <span>${eraLabel[b.era]||b.era}</span>
+        <span>${escHtml(b.type)}</span>
+      </div>
+    </article>
+  `).join('');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+// Rating buttons
+document.querySelectorAll('.rating-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.rating-btn').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedRating = parseInt(btn.dataset.val);
+  });
+});
+
+// Submit
+document.getElementById('submit-btn').addEventListener('click', () => {
+  const name = document.getElementById('name').value.trim();
+  const loc  = document.getElementById('loc').value.trim();
+  const era  = document.getElementById('era').value;
+  const type = document.getElementById('type').value;
+  const comment = document.getElementById('comment').value.trim();
+
+  if (!name||!loc||!era||!type||!selectedRating) {
+    showToast('Fill in all required fields'); return;
+  }
+
+  const entry = {
+    id: 'u_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),
+    name, loc, era, type, comment,
+    rating: selectedRating,
+    timestamp: Date.now()
+  };
+
+  allBuildings.push(entry);
+  saveUserBuildings(allBuildings);
+  showToast('Submission filed.');
+
+  document.getElementById('name').value='';
+  document.getElementById('loc').value='';
+  document.getElementById('era').value='';
+  document.getElementById('type').value='';
+  document.getElementById('comment').value='';
+  document.querySelectorAll('.rating-btn').forEach(b=>b.classList.remove('selected'));
+  selectedRating = null;
+
+  renderStats();
+  renderGrid();
+});
+
+// Filters
+document.querySelectorAll('.filter').forEach(f => {
+  f.addEventListener('click', () => {
+    document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));
+    f.classList.add('active');
+    currentFilter = f.dataset.filter;
+    renderGrid();
+  });
+});
+
+renderStats();
+renderGrid();
+</script>
+</body>
+</html>
